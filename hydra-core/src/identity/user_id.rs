@@ -1,11 +1,11 @@
-use crate::crypto::{encryption::Base58Encoder, random::RNG};
+use crate::crypto::{encoding::base58::Base58Encoder, random::Rng};
 
 pub struct UserIdGen;
 
 impl UserIdGen {
     pub fn generate() -> Result<String, getrandom::Error> {
         let mut buf = [0u8; 16];
-        RNG::fill(&mut buf)?;
+        Rng::fill(&mut buf)?;
         Ok(Base58Encoder::encode(&buf))
     }
 }

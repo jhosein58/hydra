@@ -5,8 +5,10 @@ edition = "2024"
 
 [dependencies]
 axum = "0.8.9"
+bip39 = "2.2.2"
 bs58 = "0.5.1"
 getrandom = "0.4.3"
 serde = { version = "1.0.228", features = ["derive"] }
 surrealdb = { version = "3.2.0", features = ["kv-mem"] }
 tokio = { version = "1.52.3", features = ["full"] }
+jsonwebtoken = { version = "10", features = ["rust_crypto"] }
