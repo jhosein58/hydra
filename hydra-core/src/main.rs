@@ -1,21 +1,29 @@
-pub mod auth;
-pub mod crypto;
-pub mod identity;
+mod auth;
+mod cli;
+mod crypto;
+mod docs;
+mod identity;
+mod router;
 
-use axum::{Router, routing::get};
 use figlet_rs::FIGlet;
+
+use clap::Parser;
+use cli::Cli;
 
 #[tokio::main]
 async fn main() {
+    let cli = Cli::parse();
+
     let standard_font = FIGlet::standard().unwrap();
     println!("{}", standard_font.convert("AHMENT").unwrap());
 
-    let app = Router::new().route("/", get(|| async { "Hello, World!" }));
+    let address = format!("127.0.0.1:{}", cli.port);
 
-    let listener = tokio::net::TcpListener::bind("localhost:3000")
+    let listener = tokio::net::TcpListener::bind(address).await.unwrap();
+    println!("Server listening on:  http://localhost:{}", cli.port);
+    println!("API documentation:    http://localhost:{}/docs", cli.port);
+    println!("Allowed origin:       {}", cli.origin);
+    axum::serve(listener, router::router(cli.origin))
         .await
         .unwrap();
-
-    println!("   Server started at: http://localhost:3000");
-    axum::serve(listener, app).await.unwrap();
 }

@@ -1,10 +1,10 @@
 use jsonwebtoken::{Algorithm, DecodingKey, EncodingKey, Header, Validation, decode, encode};
 use serde::{Serialize, de::DeserializeOwned};
 
-pub struct Jwt;
+pub struct _Jwt;
 
-impl Jwt {
-    pub fn encode<T: Serialize>(
+impl _Jwt {
+    pub fn _encode<T: Serialize>(
         claims: &T,
         key: &str,
     ) -> Result<String, jsonwebtoken::errors::Error> {
@@ -15,7 +15,7 @@ impl Jwt {
         )
     }
 
-    pub fn decode<T: DeserializeOwned>(
+    pub fn _decode<T: DeserializeOwned>(
         token: String,
         key: &str,
     ) -> Result<jsonwebtoken::TokenData<T>, jsonwebtoken::errors::Error> {
