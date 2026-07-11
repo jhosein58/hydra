@@ -1,7 +1,8 @@
+import ReactQueryProvider from "@/providers/ReactQueryProvider";
+
 import type { Metadata } from "next";
 import "./globals.css";
 import { geist } from "@/fonts";
-
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,11 +15,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={geist.variable}
-    >
-      <body>{children}</body>
+    <html lang="en" className={geist.variable}>
+      <body>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
+      </body>
     </html>
   );
 }
