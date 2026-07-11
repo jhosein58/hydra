@@ -1,9 +1,15 @@
+"use client"
+
 import { ContinueButton } from "./continueButton";
 import { MnemonicGrid } from "./mnemonicGrid";
 import { SecurityAlert } from "./securityAlert";
 import { SetupProgress } from "./setupProgress";
 
 export function SetupCard() {
+  async function generateIdentity() {
+    
+  }
+
   return (
     <div className="w-full max-w-5xl overflow-hidden rounded-3xl border border-border bg-card shadow-2xl">
       <SetupProgress />
@@ -32,7 +38,7 @@ export function SetupCard() {
           <span className="text-sm">I have written these words down.</span>
         </label>
 
-        <ContinueButton />
+        <ContinueButton onClick={generateIdentity} />
       </div>
     </div>
   );

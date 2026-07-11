@@ -1,4 +1,8 @@
-export function ContinueButton() {
+import React from "react";
+
+type Props = React.HTMLAttributes<HTMLButtonElement>;
+
+export function ContinueButton({ children, ...props }: Props) {
   return (
     <button
       className="
@@ -13,6 +17,7 @@ export function ContinueButton() {
     disabled:cursor-not-allowed
     disabled:opacity-50
 "
+      {...props}
     >
       Continue →
     </button>
