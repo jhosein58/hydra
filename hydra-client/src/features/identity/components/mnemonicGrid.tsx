@@ -1,7 +1,9 @@
-export function MnemonicGrid({ mnemonic }: any) {
+import { Mnemonic } from "../types/identity";
+
+export function MnemonicGrid({ mnemonic }: { mnemonic: Mnemonic }) {
   return (
     <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
-      {mnemonic?.map(function (item: string, index: number) {
+      {mnemonic.map((item: string, index) => {
         return (
           <div
             key={index}
