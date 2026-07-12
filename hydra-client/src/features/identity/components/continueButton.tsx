@@ -1,8 +1,8 @@
 import React from "react";
 
-type Props = React.HTMLAttributes<HTMLButtonElement>;
+type Props = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-export function ContinueButton({ children, ...props }: Props) {
+export function ContinueButton({ ...props }: Props) {
   return (
     <button
       className="
@@ -12,6 +12,7 @@ export function ContinueButton({ children, ...props }: Props) {
     bg-primary
     font-semibold
     text-primary-foreground
+    cursor-pointer
     transition
     hover:opacity-90
     disabled:cursor-not-allowed

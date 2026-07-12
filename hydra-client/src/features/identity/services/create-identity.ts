@@ -19,9 +19,9 @@ export async function createIdentity(mnemonic: string[]) {
     device,
 
     payload: {
-      masterPublicKey: encodeBase58(master.publicKey),
+      master_public_Key: encodeBase58(master.publicKey),
 
-      devicePublicKey: encodeBase58(device.publicKey),
+      device_public_key: encodeBase58(device.publicKey),
 
       signature: encodeBase58(signature),
     },

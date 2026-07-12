@@ -1,14 +1,23 @@
-"use client"
+"use client";
 
+import { useGenerateMnemonic } from "../hooks/useGenerateMnemonic";
+import { useRegisterIdentity } from "../hooks/useRegisterIdentity";
+import { createIdentity } from "../services/create-identity";
 import { ContinueButton } from "./continueButton";
 import { MnemonicGrid } from "./mnemonicGrid";
 import { SecurityAlert } from "./securityAlert";
 import { SetupProgress } from "./setupProgress";
 
 export function SetupCard() {
-  async function generateIdentity() {
-    
-  }
+  const { data: mnemonic = [], isPending } = useGenerateMnemonic();
+
+  const registerMutation = useRegisterIdentity();
+
+  const handleContinue = async () => {
+    const identity = await createIdentity(mnemonic);
+
+    registerMutation.mutate(identity.payload);
+  };
 
   return (
     <div className="w-full max-w-5xl overflow-hidden rounded-3xl border border-border bg-card shadow-2xl">
@@ -28,7 +37,7 @@ export function SetupCard() {
           </p>
         </div>
 
-        <MnemonicGrid />
+        <MnemonicGrid mnemonic={mnemonic} />
 
         <SecurityAlert />
 
@@ -38,7 +47,10 @@ export function SetupCard() {
           <span className="text-sm">I have written these words down.</span>
         </label>
 
-        <ContinueButton onClick={generateIdentity} />
+        <ContinueButton
+          onClick={handleContinue}
+          disabled={isPending || registerMutation.isPending}
+        />
       </div>
     </div>
   );

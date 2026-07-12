@@ -1,7 +1,7 @@
-export function MnemonicGrid() {
+export function MnemonicGrid({ mnemonic }: any) {
   return (
     <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
-      {Array.from({ length: 12 }).map(function (_, index) {
+      {mnemonic?.map(function (item: string, index: number) {
         return (
           <div
             key={index}
@@ -9,7 +9,7 @@ export function MnemonicGrid() {
           >
             <span className="text-xs text-muted-foreground">{index + 1}</span>
 
-            <p className="mt-2 font-semibold tracking-wide">zebra</p>
+            <p className="mt-2 font-semibold tracking-wide">{item}</p>
           </div>
         );
       })}
