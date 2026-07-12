@@ -1,13 +1,12 @@
 import * as bip39 from "bip39";
 import { derivePath } from "ed25519-hd-key";
-import { getPublicKey } from "@noble/ed25519";
+import { ed25519 } from "@noble/curves/ed25519.js";
 
 import type { KeyPair } from "./types";
 import { DERIVATION_PATH } from "./constants";
 
-
 export async function generateMasterKeyPair(
-  mnemonic: string[]
+  mnemonic: string[],
 ): Promise<KeyPair> {
   const phrase = mnemonic.join(" ");
 
@@ -15,10 +14,10 @@ export async function generateMasterKeyPair(
 
   const { key } = derivePath(
     DERIVATION_PATH,
-    Buffer.from(seed).toString("hex")
+    Buffer.from(seed).toString("hex"),
   );
 
-  const publicKey = await getPublicKey(key);
+  const publicKey = ed25519.getPublicKey(key);
 
   return {
     privateKey: key,
