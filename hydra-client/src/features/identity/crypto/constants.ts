@@ -1,0 +1,1 @@
+export const DERIVATION_PATH = "m/44'/0'/0'/0/0";

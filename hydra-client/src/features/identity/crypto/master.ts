@@ -1,12 +1,27 @@
 import * as bip39 from "bip39";
-import { BIP32Factory } from "bip32";
-import * as ecc from "tiny-secp256k1";
+import { derivePath } from "ed25519-hd-key";
+import { getPublicKey } from "@noble/ed25519";
 
-const bip32 = BIP32Factory(ecc);
+import type { KeyPair } from "./types";
+import { DERIVATION_PATH } from "./constants";
 
-export async function generateMasterKeys(mnemonic: string[]) {
+
+export async function generateMasterKeyPair(
+  mnemonic: string[]
+): Promise<KeyPair> {
   const phrase = mnemonic.join(" ");
+
   const seed = await bip39.mnemonicToSeed(phrase);
-  const root = bip32.fromSeed(seed);
-  
+
+  const { key } = derivePath(
+    DERIVATION_PATH,
+    Buffer.from(seed).toString("hex")
+  );
+
+  const publicKey = await getPublicKey(key);
+
+  return {
+    privateKey: key,
+    publicKey,
+  };
 }
