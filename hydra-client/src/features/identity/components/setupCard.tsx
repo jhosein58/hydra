@@ -1,6 +1,7 @@
 "use client";
 
 import { useGenerateMnemonic } from "../hooks/useGenerateMnemonic";
+import { useIdentity } from "../hooks/useIdentity";
 import { useRegisterIdentity } from "../hooks/useRegisterIdentity";
 import { createIdentity } from "../services/create-identity";
 import { ContinueButton } from "./continueButton";
@@ -9,11 +10,17 @@ import { SecurityAlert } from "./securityAlert";
 import { SetupProgress } from "./setupProgress";
 
 export function SetupCard() {
+  const { data: keys, isLoading } = useIdentity();
   const { data: mnemonic = [], isPending } = useGenerateMnemonic();
 
   const registerMutation = useRegisterIdentity();
 
   const handleContinue = async () => {
+    if (keys) {
+      console.log("Identity already exists");
+      return;
+    }
+
     const identity = await createIdentity(mnemonic);
 
     registerMutation.mutate(identity.payload);

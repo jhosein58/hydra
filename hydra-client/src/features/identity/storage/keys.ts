@@ -49,7 +49,7 @@ export async function getPrivateKeys() {
       const result = request.result;
 
       if (!result) {
-        resolve(undefined);
+        resolve(result ?? null);
         return;
       }
 
