@@ -5,6 +5,7 @@ mod docs;
 mod identity;
 mod models;
 mod router;
+mod websocket;
 
 use figlet_rs::FIGlet;
 

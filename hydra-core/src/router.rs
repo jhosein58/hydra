@@ -13,6 +13,7 @@ use crate::{
     AppState,
     auth::register::{mnemonic, register},
     docs::ApiDoc,
+    websocket::upgrade::upgrade,
 };
 
 pub fn router(origin: String, state: AppState) -> Router {
@@ -24,6 +25,7 @@ pub fn router(origin: String, state: AppState) -> Router {
     Router::new()
         .route("/api/register/mnemonic", get(mnemonic))
         .route("/api/register", post(register))
+        .route("/ws", get(upgrade))
         .merge(SwaggerUi::new("/docs").url("/api-doc/openapi.json", ApiDoc::openapi()))
         .layer(cors)
         .with_state(state)
