@@ -1,4 +1,5 @@
 use axum::extract::ws::{Message, WebSocket};
+use std::time::Instant;
 
 use crate::{
     AppState,
@@ -8,7 +9,23 @@ use crate::{
     },
 };
 
+pub enum ConnectionState {
+    Unauthenticated,
+
+    WaitingForChallenge {
+        device_public_key: String,
+        challenge: String,
+        created_at: Instant,
+    },
+
+    Authenticated {
+        device_public_key: String,
+    },
+}
+
 pub async fn handle(mut socket: WebSocket, state: AppState) {
+    let mut conn_state = ConnectionState::Unauthenticated;
+
     while let Some(result) = socket.recv().await {
         let message = match result {
             Ok(message) => message,
@@ -20,7 +37,7 @@ pub async fn handle(mut socket: WebSocket, state: AppState) {
 
         match message {
             Message::Text(text) => {
-                handle_text(&mut socket, &state, &text).await;
+                handle_text(&mut socket, &state, &mut conn_state, &text).await;
             }
 
             Message::Close(_) => {
@@ -32,7 +49,12 @@ pub async fn handle(mut socket: WebSocket, state: AppState) {
     }
 }
 
-async fn handle_text(socket: &mut WebSocket, state: &AppState, text: &str) {
+async fn handle_text(
+    socket: &mut WebSocket,
+    state: &AppState,
+    conn_state: &mut ConnectionState,
+    text: &str,
+) {
     let message: ClientMessage = match serde_json::from_str(text) {
         Ok(message) => message,
 
@@ -49,7 +71,7 @@ async fn handle_text(socket: &mut WebSocket, state: &AppState, text: &str) {
         }
     };
 
-    routing(socket, state, message).await
+    routing(socket, state, conn_state, message).await
 }
 
 pub async fn send(socket: &mut WebSocket, message: ServerMessage) {

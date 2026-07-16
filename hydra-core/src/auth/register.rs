@@ -89,29 +89,16 @@ pub async fn register(
         .await
         .map_err(|_| bad_request("Device signature verification failed"))?;
 
-    let mut result = state
+    let result: Option<User> = state
         .db
-        .query(
-            "SELECT * FROM user
-             WHERE master_public_key = $key
-             LIMIT 1",
-        )
-        .bind(("key", payload.master_public_key.clone()))
+        .select(("user", payload.master_public_key.clone()))
         .await
         .map_err(|err| {
             eprintln!("Database error: {err:#?}");
             internal_error()
         })?;
 
-    let user_exists = result
-        .take::<Vec<User>>(0)
-        .map_err(|err| {
-            eprintln!("Database decode error: {err:#?}");
-            internal_error()
-        })?
-        .into_iter()
-        .next()
-        .is_some();
+    let user_exists = result.is_some();
 
     if user_exists {
         return Err((
@@ -125,9 +112,10 @@ pub async fn register(
 
     let user: Option<User> = state
         .db
-        .create("user")
+        .create(("user", payload.master_public_key.clone()))
         .content(User {
-            master_public_key: payload.master_public_key.clone(),
+            id: None,
+            username: None,
         })
         .await
         .map_err(|err| {
@@ -135,14 +123,14 @@ pub async fn register(
             internal_error()
         })?;
 
-    let _ = user.ok_or_else(internal_error)?;
+    let unwraped_user = user.ok_or_else(internal_error)?;
 
     let _: Option<Device> = state
         .db
-        .create("device")
+        .create(("device", payload.device_public_key.clone()))
         .content(Device {
-            user: payload.master_public_key.clone(),
-            public_key: payload.device_public_key,
+            id: None,
+            user: unwraped_user.id.unwrap(), // injaa ro ba'dan baaiad dorost konam
             trusted: true,
         })
         .await
