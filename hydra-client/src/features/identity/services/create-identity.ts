@@ -9,7 +9,7 @@ export async function createIdentity(mnemonic: string[]) {
 
   const device = generateDeviceKeyPair();
 
-  await savePrivateKeys(master.privateKey, device.privateKey);
+  await savePrivateKeys(master.privateKey,master.publicKey, device.privateKey, device.publicKey);
 
   const signature = await signDevicePublicKey(
     device.publicKey,
