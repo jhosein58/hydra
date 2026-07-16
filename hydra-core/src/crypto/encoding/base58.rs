@@ -1,7 +1,7 @@
 pub struct Base58;
 
 impl Base58 {
-    pub fn _encode(bytes: &[u8]) -> String {
+    pub fn encode(bytes: &[u8]) -> String {
         bs58::encode(bytes).into_string()
     }
 
