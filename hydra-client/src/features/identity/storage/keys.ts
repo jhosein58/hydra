@@ -9,7 +9,7 @@ interface StoredKeys {
   devicePublicKey: string;
 }
 
-export async function savePrivateKeys(
+export async function saveIdentityKeys(
   masterPrivateKey: Uint8Array,
   masterPublicKey: Uint8Array,
   devicePrivateKey: Uint8Array,
@@ -20,6 +20,7 @@ export async function savePrivateKeys(
   const data: StoredKeys = {
     masterPrivateKey: uint8ToBase64(masterPrivateKey),
     masterPublicKey: uint8ToBase64(masterPublicKey),
+
     devicePrivateKey: uint8ToBase64(devicePrivateKey),
     devicePublicKey: uint8ToBase64(devicePublicKey),
   };
@@ -35,13 +36,15 @@ export async function savePrivateKeys(
   });
 }
 
-export async function getPrivateKeys() {
+export async function getIdentityKeys() {
   const db = await openIdentityDB();
 
   return new Promise<
     | {
         masterPrivateKey: Uint8Array;
+        masterPublicKey: Uint8Array;
         devicePrivateKey: Uint8Array;
+        devicePublicKey: Uint8Array;
       }
     | undefined
   >((resolve, reject) => {
@@ -60,8 +63,10 @@ export async function getPrivateKeys() {
 
       resolve({
         masterPrivateKey: base64ToUint8(result.masterPrivateKey),
+        masterPublicKey: base64ToUint8(result.masterPublicKey),
 
         devicePrivateKey: base64ToUint8(result.devicePrivateKey),
+        devicePublicKey: base64ToUint8(result.devicePublicKey),
       });
     };
 

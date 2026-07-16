@@ -14,7 +14,9 @@ export type ClientMessage =
 export type ServerMessage =
   | {
       type: "Challenge";
-      challenge: string;
+      data: {
+        challenge: string;
+      };
     }
   | {
       type: "Authenticated";
