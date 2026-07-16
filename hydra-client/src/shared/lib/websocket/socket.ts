@@ -1,3 +1,6 @@
+import { handleMessage } from "./handlers";
+import { ServerMessage } from "./types";
+
 class SocketService {
   #socket: WebSocket | null = null;
 
@@ -19,6 +22,12 @@ class SocketService {
       console.log(error);
     };
 
+    this.#socket.onmessage = (event) => {
+      const message: ServerMessage = JSON.parse(event.data);
+
+      handleMessage(message);
+    };
+
     return this.#socket;
   }
 
@@ -30,6 +39,14 @@ class SocketService {
   send(data: any) {
     if (this.#socket?.readyState === WebSocket.OPEN)
       this.#socket.send(JSON.stringify(data));
+  }
+
+  authenticate() {}
+
+  checkAuthStatus() {
+    this.send({
+      type: "AuthStatus",
+    });
   }
 
   get socket() {
