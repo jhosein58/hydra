@@ -2,7 +2,10 @@ use axum::extract::ws::{Message, WebSocket};
 
 use crate::{
     AppState,
-    websocket::protocol::{ClientMessage, ServerMessage},
+    websocket::{
+        protocol::{ClientMessage, ServerMessage},
+        router::routing,
+    },
 };
 
 pub async fn handle(mut socket: WebSocket, state: AppState) {
@@ -29,7 +32,7 @@ pub async fn handle(mut socket: WebSocket, state: AppState) {
     }
 }
 
-async fn handle_text(socket: &mut WebSocket, _state: &AppState, text: &str) {
+async fn handle_text(socket: &mut WebSocket, state: &AppState, text: &str) {
     let message: ClientMessage = match serde_json::from_str(text) {
         Ok(message) => message,
 
@@ -46,14 +49,10 @@ async fn handle_text(socket: &mut WebSocket, _state: &AppState, text: &str) {
         }
     };
 
-    match message {
-        ClientMessage::Ping => {
-            send(socket, ServerMessage::Pong).await;
-        }
-    }
+    routing(socket, state, message).await
 }
 
-async fn send(socket: &mut WebSocket, message: ServerMessage) {
+pub async fn send(socket: &mut WebSocket, message: ServerMessage) {
     let json = serde_json::to_string(&message).unwrap();
 
     let _ = socket.send(Message::Text(json.into())).await;
