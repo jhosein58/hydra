@@ -1,4 +1,4 @@
-import { SetupCard } from "@/features/identity/components/setupCard";
+import { SetupCard } from "@/features/identity/components/setup-card";
 
 export default function SetupPage() {
   return (

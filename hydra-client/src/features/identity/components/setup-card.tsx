@@ -4,10 +4,10 @@ import { useGenerateMnemonic } from "../hooks/useGenerateMnemonic";
 import { useIdentity } from "../hooks/useIdentity";
 import { useRegisterIdentity } from "../hooks/useRegisterIdentity";
 import { createIdentity } from "../services/create-identity";
-import { ContinueButton } from "./continueButton";
-import { MnemonicGrid } from "./mnemonicGrid";
-import { SecurityAlert } from "./securityAlert";
-import { SetupProgress } from "./setupProgress";
+import { ContinueButton } from "./continue-button";
+import { MnemonicGrid } from "./mnemonic-grid";
+import { SecurityAlert } from "./security-alert";
+import { SetupProgress } from "./setup-progress";
 
 export function SetupCard() {
   const { data: keys, isLoading } = useIdentity();
