@@ -24,7 +24,7 @@ export function Sidebar() {
     <aside className="hidden w-72 shrink-0 border-r border-border bg-card lg:flex lg:flex-col">
       <div className="border-b border-border p-6">
         <h1 className="text-2xl font-bold">
-          AhmadGram
+          Hydra
         </h1>
 
         <p className="mt-1 text-sm text-muted-foreground">

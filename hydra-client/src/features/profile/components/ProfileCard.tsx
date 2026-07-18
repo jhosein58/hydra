@@ -15,11 +15,11 @@ export function ProfileCard() {
         </button>
 
         <h1 className="mt-5 text-2xl font-bold">
-          Ahmad Rezaei
+          Alireza has
         </h1>
 
         <p className="mt-1 text-muted-foreground">
-          @ahmadrezaei
+          @flatrov
         </p>
       </div>
 
