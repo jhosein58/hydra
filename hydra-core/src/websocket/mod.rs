@@ -3,3 +3,4 @@ pub mod connection;
 pub mod protocol;
 pub mod router;
 pub mod upgrade;
+pub mod user;

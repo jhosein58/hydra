@@ -115,7 +115,9 @@ pub async fn register(
         .create(("user", payload.master_public_key.clone()))
         .content(User {
             id: None,
+            name: None,
             username: None,
+            bio: None,
         })
         .await
         .map_err(|err| {

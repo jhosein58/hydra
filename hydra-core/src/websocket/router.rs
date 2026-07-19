@@ -7,6 +7,7 @@ use crate::{
         },
         connection::{ConnectionState, send},
         protocol::{ClientMessage, ServerMessage},
+        user::{get::GetProfileHandler, search::SearchUserHandler, update::UpdateUserHandler},
     },
 };
 use axum::extract::ws::WebSocket;
@@ -30,7 +31,17 @@ pub async fn routing(
 
         ClientMessage::AuthStatus => AuthStatusHandler::handle(conn_state),
 
-        _ => panic!(),
+        ClientMessage::UpdateProfile {
+            name,
+            bio,
+            username,
+        } => UpdateUserHandler::handle(app_state, conn_state, name, bio, username).await,
+
+        ClientMessage::GetProfile => GetProfileHandler::handle(app_state, conn_state).await,
+
+        ClientMessage::SearchUsers { username } => {
+            SearchUserHandler::handle(app_state, conn_state, &username).await
+        }
     };
 
     match response {
