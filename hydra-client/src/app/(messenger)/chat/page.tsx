@@ -1,11 +1,11 @@
-"use client"
-import { socketService } from "@/shared/lib/websocket/socket"
-import { useEffect } from "react"
+"use client";
+import { socketService } from "@/shared/lib/websocket/core/socket";
+import { useEffect } from "react";
 
 export default function Chat() {
-    useEffect(() => {
-        const a = socketService;
-        a.connect("http://localhost:8080/ws")
-    }, [])
-    return (<></>)
+  useEffect(() => {
+    const a = socketService;
+    a.connect("http://localhost:8080/ws");
+  }, []);
+  return <></>;
 }

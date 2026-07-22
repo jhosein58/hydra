@@ -1,22 +1,18 @@
 import { handleMessage } from "./handlers";
 import { ServerMessage } from "./types";
 
-import { getIdentityKeys } from "@/features/identity/storage/keys";
-
-import { encodeBase58 } from "../crypto/base58";
-
 class SocketService {
   #socket: WebSocket | null = null;
 
-  connect(url: string) {
+  connect(url: string, onOpen?: () => void) {
     if (this.#socket) return this.#socket;
 
     this.#socket = new WebSocket(url);
 
     this.#socket.onopen = () => {
-      console.log("connected");
+      console.log("on open");
 
-      this.authenticate();
+      onOpen?.();
     };
 
     this.#socket.onclose = () => {
@@ -54,25 +50,6 @@ class SocketService {
     }
 
     this.#socket.send(JSON.stringify(data));
-  }
-
-  async authenticate() {
-    const identity = await getIdentityKeys();
-
-    if (!identity) throw new Error("Identity not found");
-
-    this.send({
-      type: "Authenticate",
-      data: {
-        device_public_key: encodeBase58(identity.devicePublicKey),
-      },
-    });
-  }
-
-  checkAuthStatus() {
-    this.send({
-      type: "AuthStatus",
-    });
   }
 
   get socket() {
