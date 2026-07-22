@@ -4,7 +4,7 @@ import { signDevicePublicKey } from "../crypto/sign";
 import { encodeBase58 } from "../../../shared/lib/crypto/base58";
 import { saveIdentityKeys } from "../storage/keys";
 
-export async function createIdentity(mnemonic: string[]) {
+export async function registerIdentity(mnemonic: string[]) {
   const master = await generateMasterKeyPair(mnemonic);
 
   const device = generateDeviceKeyPair();

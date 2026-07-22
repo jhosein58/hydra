@@ -3,7 +3,7 @@
 import { useGenerateMnemonic } from "../hooks/useGenerateMnemonic";
 import { useIdentity } from "../hooks/useIdentity";
 import { useRegisterIdentity } from "../hooks/useRegisterIdentity";
-import { createIdentity } from "../services/create-identity";
+import { registerIdentity } from "../services/register-Identity-service";
 import { ContinueButton } from "./continue-button";
 import { MnemonicGrid } from "./mnemonic-grid";
 import { SecurityAlert } from "./security-alert";
@@ -16,12 +16,7 @@ export function SetupCard() {
   const registerMutation = useRegisterIdentity();
 
   const handleContinue = async () => {
-    if (keys) {
-      console.log("Identity already exists");
-      return;
-    }
-
-    const identity = await createIdentity(mnemonic);
+    const identity = await registerIdentity(mnemonic);
 
     registerMutation.mutate(identity.payload);
   };
