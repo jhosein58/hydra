@@ -8,7 +8,7 @@ import { ContinueButton } from "./continue-button";
 import { MnemonicGrid } from "./mnemonic-grid";
 import { SecurityAlert } from "./security-alert";
 import { SetupAgreement } from "./setup-agreement";
-import { SetupProgress } from "./setup-progress";
+import { SetupBanner } from "./setup-banner";
 import { SetupHeader } from "./setup-header";
 
 export function SetupCard() {
@@ -25,7 +25,7 @@ export function SetupCard() {
 
   return (
     <div className="w-full max-w-5xl overflow-hidden rounded-3xl border border-border bg-card shadow-2xl">
-      <SetupProgress />
+      <SetupBanner />
 
       <div className="space-y-8 p-8 md:p-10">
         <SetupHeader />
