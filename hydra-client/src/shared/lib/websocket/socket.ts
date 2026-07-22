@@ -1,5 +1,5 @@
-import { handleMessage } from "./handlers";
-import { ServerMessage } from "./types";
+import { handleMessage } from "./auth/handlers";
+import { ServerMessage } from "./auth/types";
 
 class SocketService {
   #socket: WebSocket | null = null;

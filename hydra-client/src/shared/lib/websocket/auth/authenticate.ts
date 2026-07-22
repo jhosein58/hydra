@@ -1,6 +1,6 @@
 import { getIdentityKeys } from "@/features/identity/storage/keys";
 import { encodeBase58 } from "../../crypto/base58";
-import { socketService } from "../core/socket";
+import { socketService } from "../socket";
 
 export async function authenticate() {
   const identity = await getIdentityKeys();
