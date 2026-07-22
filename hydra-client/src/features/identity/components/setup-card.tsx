@@ -1,17 +1,19 @@
 "use client";
 
+import { useState } from "react";
 import { useGenerateMnemonic } from "../hooks/useGenerateMnemonic";
-import { useIdentity } from "../hooks/useIdentity";
 import { useRegisterIdentity } from "../hooks/useRegisterIdentity";
 import { registerIdentity } from "../services/register-Identity-service";
 import { ContinueButton } from "./continue-button";
 import { MnemonicGrid } from "./mnemonic-grid";
 import { SecurityAlert } from "./security-alert";
+import { SetupAgreement } from "./setup-agreement";
 import { SetupProgress } from "./setup-progress";
+import { SetupHeader } from "./setup-header";
 
 export function SetupCard() {
-  const { data: keys, isLoading } = useIdentity();
   const { data: mnemonic = [], isPending } = useGenerateMnemonic();
+  const [checked, setChecked] = useState(false);
 
   const registerMutation = useRegisterIdentity();
 
@@ -26,32 +28,17 @@ export function SetupCard() {
       <SetupProgress />
 
       <div className="space-y-8 p-8 md:p-10">
-        <div className="space-y-2">
-          <span className="text-4xl">🔐</span>
-
-          <h1 className="text-4xl font-bold tracking-tight">
-            Create your identity
-          </h1>
-
-          <p className="max-w-xl text-muted-foreground">
-            Your recovery phrase is the only way to restore your identity. Keep
-            it somewhere safe.
-          </p>
-        </div>
+        <SetupHeader />
 
         <MnemonicGrid mnemonic={mnemonic} />
 
         <SecurityAlert />
 
-        <label className="flex cursor-pointer items-center gap-3">
-          <input type="checkbox" className="size-5 accent-primary" />
-
-          <span className="text-sm">I have written these words down.</span>
-        </label>
+        <SetupAgreement checked={checked} onChange={setChecked} />
 
         <ContinueButton
           onClick={handleContinue}
-          disabled={isPending || registerMutation.isPending}
+          disabled={isPending || registerMutation.isPending || !checked}
         />
       </div>
     </div>
