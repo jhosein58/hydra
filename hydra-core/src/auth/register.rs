@@ -1,7 +1,6 @@
 use std::format;
 
 use axum::{Json, extract::State, http::StatusCode};
-use ed25519_dalek::{Signature, VerifyingKey, ed25519::signature::AsyncVerifier};
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 
@@ -140,14 +139,6 @@ pub async fn register(
             message: "User registered successfully".into(),
         }),
     ))
-}
-
-fn decode_32(value: &str) -> Result<[u8; 32], (StatusCode, Json<RegisterResponse>)> {
-    let bytes = Base58::decode(value).map_err(|_| bad_request("Invalid Base58 encoding"))?;
-
-    bytes
-        .try_into()
-        .map_err(|_| bad_request("Public key must be exactly 32 bytes"))
 }
 
 fn bad_request(message: &str) -> (StatusCode, Json<RegisterResponse>) {
