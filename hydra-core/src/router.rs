@@ -10,9 +10,9 @@ use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
 use crate::{
-    AppState,
     auth::register::{mnemonic, register},
     docs::ApiDoc,
+    state::AppState,
     websocket::upgrade::upgrade,
 };
 

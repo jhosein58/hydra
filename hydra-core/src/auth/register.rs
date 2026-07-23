@@ -5,9 +5,9 @@ use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 
 use crate::{
-    AppState,
-    crypto::{encoding::base58::Base58, mnemonic::bip39::Bip39, signature},
+    crypto::{mnemonic::bip39::Bip39, signature},
     models::{device::Device, user::User},
+    state::AppState,
 };
 
 #[utoipa::path(

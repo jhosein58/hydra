@@ -1,5 +1,5 @@
 use crate::{
-    AppState,
+    state::AppState,
     websocket::{
         connection::ConnectionState,
         protocol::{ServerMessage, UserSearchResult},
@@ -23,7 +23,6 @@ impl SearchUserHandler {
         conn_state: &mut ConnectionState,
         username: &str,
     ) -> Result<ServerMessage, &'static str> {
-        
         let ConnectionState::Authenticated { .. } = conn_state else {
             return Err("unauthenticated");
         };

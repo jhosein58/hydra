@@ -1,9 +1,9 @@
 use std::time::Instant;
 
 use crate::{
-    AppState,
     auth::challenge::generate32,
     models::device::Device,
+    state::AppState,
     websocket::{authentication::challenge, connection::ConnectionState, protocol::ServerMessage},
 };
 
