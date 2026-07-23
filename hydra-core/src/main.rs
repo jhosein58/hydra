@@ -9,6 +9,9 @@ mod router;
 mod state;
 mod websocket;
 
+#[cfg(test)]
+mod tests;
+
 use clap::Parser;
 use cli::Cli;
 
