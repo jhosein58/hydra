@@ -1,6 +1,6 @@
 use crate::{
-    AppState,
     models::{device::Device, user::User},
+    state::AppState,
     websocket::{connection::ConnectionState, protocol::ServerMessage},
 };
 

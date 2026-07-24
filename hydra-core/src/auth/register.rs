@@ -1,12 +1,13 @@
+use std::format;
+
 use axum::{Json, extract::State, http::StatusCode};
-use ed25519_dalek::{Signature, VerifyingKey, ed25519::signature::AsyncVerifier};
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 
 use crate::{
-    AppState,
-    crypto::{encoding::base58::Base58, mnemonic::bip39::Bip39},
+    crypto::{mnemonic::bip39::Bip39, signature},
     models::{device::Device, user::User},
+    state::AppState,
 };
 
 #[utoipa::path(
@@ -72,22 +73,12 @@ pub async fn register(
     State(state): State<AppState>,
     Json(payload): Json<RegisterRequest>,
 ) -> Result<(StatusCode, Json<RegisterResponse>), (StatusCode, Json<RegisterResponse>)> {
-    let master_bytes = decode_32(&payload.master_public_key)?;
-    let device_bytes = decode_32(&payload.device_public_key)?;
-
-    let signature_bytes = Base58::decode(&payload.signature)
-        .map_err(|_| bad_request("Invalid signature encoding"))?;
-
-    let master_public_key = VerifyingKey::from_bytes(&master_bytes)
-        .map_err(|_| bad_request("Invalid master public key"))?;
-
-    let signature =
-        Signature::from_slice(&signature_bytes).map_err(|_| bad_request("Invalid signature"))?;
-
-    master_public_key
-        .verify_async(&device_bytes, &signature)
-        .await
-        .map_err(|_| bad_request("Device signature verification failed"))?;
+    signature::verify::from_bs58(
+        &payload.master_public_key,
+        &payload.device_public_key,
+        &payload.signature,
+    )
+    .map_err(|e| bad_request(&format!("Device signature verification failed. Error: {e}")))?;
 
     let result: Option<User> = state
         .db
@@ -148,14 +139,6 @@ pub async fn register(
             message: "User registered successfully".into(),
         }),
     ))
-}
-
-fn decode_32(value: &str) -> Result<[u8; 32], (StatusCode, Json<RegisterResponse>)> {
-    let bytes = Base58::decode(value).map_err(|_| bad_request("Invalid Base58 encoding"))?;
-
-    bytes
-        .try_into()
-        .map_err(|_| bad_request("Public key must be exactly 32 bytes"))
 }
 
 fn bad_request(message: &str) -> (StatusCode, Json<RegisterResponse>) {

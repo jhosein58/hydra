@@ -1,5 +1,5 @@
 use crate::{
-    AppState,
+    state::AppState,
     websocket::{
         connection::ConnectionState,
         protocol::{ServerMessage, UserSearchResult},

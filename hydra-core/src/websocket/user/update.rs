@@ -1,9 +1,9 @@
 use crate::{
-    AppState,
     models::{
         device::Device,
         user::{UpdateUserFields, User},
     },
+    state::AppState,
     websocket::{connection::ConnectionState, protocol::ServerMessage},
 };
 

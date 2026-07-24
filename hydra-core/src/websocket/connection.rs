@@ -2,7 +2,7 @@ use axum::extract::ws::{Message, WebSocket};
 use std::time::Instant;
 
 use crate::{
-    AppState,
+    state::AppState,
     websocket::{
         protocol::{ClientMessage, ServerMessage},
         router::routing,

@@ -1,5 +1,5 @@
 use crate::{
-    AppState,
+    state::AppState,
     websocket::{
         authentication::{
             auth_status::AuthStatusHandler, challenge::ChallengeHandler, ping::PingHandler,
