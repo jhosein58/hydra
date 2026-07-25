@@ -1,41 +1,41 @@
-import { handleMessage } from "./auth/handlers";
+// import { handleMessage } from "./handlers";
 import { ServerMessage } from "./auth/types";
 
-class SocketService {
-  #socket: WebSocket | null = null;
+type SocketServiceOptions = {
+  onOpen?: () => void;
+  onClose?: () => void;
+  onError?: () => void;
+};
 
-  connect(url: string, onOpen?: () => void) {
-    if (this.#socket) return this.#socket;
+export class SocketService {
+  #socket: WebSocket;
 
+  constructor(url: string, options?: SocketServiceOptions) {
     this.#socket = new WebSocket(url);
 
     this.#socket.onopen = () => {
-      console.log("on open");
-
-      onOpen?.();
+      options?.onOpen?.();
     };
 
     this.#socket.onclose = () => {
-      console.log("closed");
-      this.#socket = null;
+      options?.onClose?.();
     };
 
     this.#socket.onerror = (error) => {
-      console.log(error);
+      options?.onError?.();
     };
 
     this.#socket.onmessage = (event) => {
       const message: ServerMessage = JSON.parse(event.data);
 
-      handleMessage(message);
-    };
+      console.log(message);
 
-    return this.#socket;
+      // handleMessage(message);
+    };
   }
 
   disconnect() {
     this.#socket?.close();
-    this.#socket = null;
   }
 
   send(data: any) {
@@ -56,5 +56,3 @@ class SocketService {
     return this.#socket;
   }
 }
-
-export const socketService = new SocketService();

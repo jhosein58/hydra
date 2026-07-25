@@ -1,4 +1,4 @@
-import { socketService } from "../socket";
+import { socketService } from "../socket-service";
 
 export function checkAuthStatus() {
   socketService.send({

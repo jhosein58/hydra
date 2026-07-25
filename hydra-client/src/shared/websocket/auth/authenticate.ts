@@ -1,18 +1,18 @@
 import { getIdentityKeys } from "@/features/identity/storage/keys";
-import { encodeBase58 } from "../../crypto/base58";
-import { socketService } from "../socket";
+import { encodeBase58 } from "../../lib/crypto/base58";
+import { redirect } from "next/navigation";
 
 export async function authenticate() {
   const identity = await getIdentityKeys();
 
   if (!identity) {
-    throw new Error("Identity not found");
+    redirect("/setup")
   }
 
-  socketService.send({
+  return {
     type: "Authenticate",
     data: {
       device_public_key: encodeBase58(identity.devicePublicKey),
     },
-  });
+  };
 }

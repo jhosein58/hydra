@@ -1,4 +1,4 @@
-import { socketService } from "@/shared/lib/websocket/socket";
+import { socketService } from "@/shared/websocket/socket-service";
 
 type Payload = {
   name: string | null;

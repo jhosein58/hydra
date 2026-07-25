@@ -3,7 +3,6 @@ import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import type { Metadata } from "next";
 import "./globals.css";
 import { geist } from "@/fonts";
-import { IdentityProvider } from "@/providers/IdentityProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,9 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={geist.variable}>
       <body>
-        <ReactQueryProvider>
-          <IdentityProvider>{children}</IdentityProvider>
-        </ReactQueryProvider>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
     </html>
   );

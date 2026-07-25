@@ -1,15 +1,4 @@
-"use client";
-
-import { useEffect } from "react";
-import { getProfile } from "../services/get-profile";
-import { socketService } from "@/shared/lib/websocket/socket";
-import { updateProfile } from "../services/update-profile";
-
 export function ProfileCard() {
-  useEffect(() => {
-    console.log(socketService.socket)
-    getProfile()
-  }, []);
   return (
     <section className="mx-auto w-full max-w-xl rounded-3xl border border-border bg-card p-8 shadow-xl">
       <div className="flex flex-col items-center">
