@@ -1,4 +1,12 @@
+"use client"
+
+import { useProfile } from "../hooks/useProfile";
+
 export function ProfileCard() {
+  const {updateProfile, loading} = useProfile();
+  
+  if(loading) return <p>is loading ...</p>
+
   return (
     <section className="mx-auto w-full max-w-xl rounded-3xl border border-border bg-card p-8 shadow-xl">
       <div className="flex flex-col items-center">

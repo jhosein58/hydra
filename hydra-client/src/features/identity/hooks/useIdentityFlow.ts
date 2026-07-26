@@ -8,6 +8,7 @@ import { registerIdentity } from "../api/register-Identity";
 import { getIdentityKeys } from "../storage/keys";
 import { ed25519 } from "@noble/curves/ed25519.js";
 import { redirect } from "next/navigation";
+import { useSocket } from "@/shared/providers/SocketProvider";
 
 export type AuthStep =
   | "IDLE"
@@ -15,7 +16,6 @@ export type AuthStep =
   | "SHOW_MNEMONIC" // ۲. توقف: نمایش کلمات به کاربر جهت یادداشت
   | "GENERATING_KEYS" // ۳. ساخت کلیدها پس از تایید کاربر
   | "REGISTER_KEYS"
-  | "CONNECTING_SOCKET" // ۴. در حال اتصال سوکت و ارسال کلید عمومی
   | "AWAITING_CHALLENGE" // ۵. منتظر چالش از سرور
   | "SIGNING" // ۶. در حال امضای چالش
   | "AUTHENTICATED" // ۷. احراز هویت موفق
@@ -25,6 +25,7 @@ export function useIdentityFlow() {
   const [step, setStep] = useState<AuthStep>("IDLE");
   const [mnemonic, setMnemonic] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const { setAuthStatus } = useSocket();
 
   // نگهداری کلیدها در memory جهت امنیت و جلوگیری از رندرهای اضافی React
   const keysRef = useRef<
@@ -84,8 +85,6 @@ export function useIdentityFlow() {
 
       keysRef.current = identity;
 
-      setStep("CONNECTING_SOCKET");
-
       // ۲. ثبت شنونده‌ها روی socketService (با استفاده از متد .on جدید)
       const unsubChallenge = socketService.on(
         "Challenge",
@@ -115,16 +114,14 @@ export function useIdentityFlow() {
 
       const unsubSuccess = socketService.on("Authenticated", () => {
         setStep("AUTHENTICATED");
+        setAuthStatus("AUTHENTICATED");
         redirect("/chat");
       });
 
       // ذخیره توابع Cleanup
       unsubscribersRef.current.push(unsubChallenge, unsubSuccess);
 
-      // ۳. برقراری اتصال وب‌سوکت
-      await socketService.connect("ws://localhost:8080/ws");
-
-      // ۴. ارسال کلید عمومی به سرور برای دریافت اولین چالش
+      // 3. ارسال کلید عمومی به سرور برای دریافت اولین چالش
       socketService.send({
         type: "Authenticate",
         data: { device_public_key: encodeBase58(identity.devicePublicKey) },
