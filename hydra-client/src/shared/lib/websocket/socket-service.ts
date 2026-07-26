@@ -9,12 +9,14 @@ class SocketService {
   #socket: WebSocket | null = null;
   #emitter = new EventEmitter();
 
-  connect(url: string): Promise<void> {
-    if (this.#socket?.readyState === WebSocket.OPEN) {
-      return Promise.resolve();
-    }
+  isConnected(): boolean {
+    return this.#socket !== null && this.#socket.readyState === WebSocket.OPEN;
+  }
 
+  connect(url: string): Promise<void> {
     return new Promise((resolve, reject) => {
+      if (this.isConnected()) return resolve();
+
       this.#socket = new WebSocket(url);
 
       this.#socket.onopen = () => {
