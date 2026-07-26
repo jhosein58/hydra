@@ -1,9 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useGenerateMnemonic } from "../hooks/useGenerateMnemonic";
-import { useRegisterIdentity } from "../hooks/useRegisterIdentity";
-import { registerIdentity } from "../services/register-Identity-service";
+import { useEffect, useState } from "react";
+import { useIdentityFlow } from "../hooks/useIdentityFlow";
 import { ContinueButton } from "./continue-button";
 import { MnemonicGrid } from "./mnemonic-grid";
 import { SecurityAlert } from "./security-alert";
@@ -12,19 +10,18 @@ import { SetupBanner } from "./setup-banner";
 import { SetupHeader } from "./setup-header";
 
 export function SetupCard() {
-  const { data: mnemonic = [], isPending } = useGenerateMnemonic();
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(false)
 
-  const registerMutation = useRegisterIdentity();
-
-  const handleContinue = async () => {
-    const identity = await registerIdentity(mnemonic);
-
-    registerMutation.mutate(identity.payload);
-  };
+  const {confirmMnemonicAndConnect, mnemonic, fetchMnemonic} = useIdentityFlow();
+  
+  useEffect(() => {
+    fetchMnemonic();
+  }, [])
 
   return (
-    <div className="w-full max-w-5xl overflow-hidden rounded-3xl border border-border bg-card shadow-2xl">
+    <div
+      className="w-full max-w-5xl overflow-hidden rounded-3xl border border-border bg-card shadow-2xl"
+    >
       <SetupBanner />
 
       <div className="space-y-8 p-8 md:p-10">
@@ -37,8 +34,8 @@ export function SetupCard() {
         <SetupAgreement checked={checked} onChange={setChecked} />
 
         <ContinueButton
-          onClick={handleContinue}
-          disabled={isPending || registerMutation.isPending || !checked}
+        onClick={confirmMnemonicAndConnect}
+          disabled={!checked}
         />
       </div>
     </div>

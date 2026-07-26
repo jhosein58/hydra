@@ -1,4 +1,4 @@
-import { socketService } from "@/shared/websocket/socket-service";
+import { socketService } from "@/shared/lib/websocket/socket-service";
 
 export function getProfile() {
   socketService.send({
