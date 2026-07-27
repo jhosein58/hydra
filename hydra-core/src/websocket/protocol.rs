@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Clone)]
 pub struct UserSearchResult {
     pub username: String,
     pub master_public_key: String,
@@ -28,7 +28,7 @@ pub enum ClientMessage {
     },
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Clone)]
 #[serde(tag = "type", content = "data")]
 pub enum ServerMessage {
     Pong,

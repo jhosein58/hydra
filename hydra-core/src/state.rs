@@ -1,8 +1,11 @@
 use surrealdb::{Surreal, engine::local::Mem};
 
+use crate::websocket::registry::Connections;
+
 #[derive(Clone)]
 pub struct AppState {
     pub db: Surreal<surrealdb::engine::local::Db>,
+    pub connections: Connections,
 }
 
 impl AppState {
@@ -24,6 +27,9 @@ impl AppState {
         .await
         .unwrap();
 
-        Self { db }
+        Self {
+            db,
+            connections: Connections::default(),
+        }
     }
 }
