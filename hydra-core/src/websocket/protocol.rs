@@ -1,9 +1,17 @@
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 
 #[derive(Debug, Serialize, Clone)]
 pub struct UserSearchResult {
     pub username: String,
     pub master_public_key: String,
+}
+
+#[derive(Debug, Clone, Serialize)]
+pub struct PresenceEntry {
+    pub master_public_key: String,
+    pub online: bool,
+    pub devices: usize,
 }
 
 #[derive(Debug, Deserialize)]
@@ -25,6 +33,14 @@ pub enum ClientMessage {
     GetProfile,
     SearchUsers {
         username: String,
+    },
+    SendMessage {
+        to: String,
+        payload: Value,
+    },
+
+    GetPresence {
+        users: Vec<String>,
     },
 }
 
@@ -50,5 +66,16 @@ pub enum ServerMessage {
     },
     Users {
         users: Vec<UserSearchResult>,
+    },
+    MessageSent {
+        to: String,
+        delivered: usize,
+    },
+    Message {
+        from: String,
+        payload: Value,
+    },
+    Presence {
+        users: Vec<PresenceEntry>,
     },
 }

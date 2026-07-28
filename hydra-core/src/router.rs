@@ -10,6 +10,7 @@ use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
 use crate::{
+    api::user::get_by_username,
     auth::register::{mnemonic, register},
     docs::ApiDoc,
     state::AppState,
@@ -25,6 +26,7 @@ pub fn router(origin: String, state: AppState) -> Router {
     Router::new()
         .route("/api/register/mnemonic", get(mnemonic))
         .route("/api/register", post(register))
+        .route("/api/user/{username}", get(get_by_username))
         .route("/ws", get(upgrade))
         .merge(SwaggerUi::new("/docs").url("/api-doc/openapi.json", ApiDoc::openapi()))
         .layer(cors)

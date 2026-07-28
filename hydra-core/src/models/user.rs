@@ -7,7 +7,6 @@ pub struct User {
     pub name: Option<String>,
     pub username: Option<String>,
     pub bio: Option<String>,
-    pub conversations: Vec<(String, String, String)>, // (chat name, another public key, conversation id)
 }
 
 #[derive(Debug, SurrealValue, Serialize)]

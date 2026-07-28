@@ -1,3 +1,4 @@
+pub mod api;
 mod app;
 mod auth;
 mod cli;
@@ -26,4 +27,3 @@ async fn main() {
         .serve()
         .await;
 }
-

@@ -4,7 +4,7 @@ use crate::{
     auth::challenge::generate32,
     models::device::Device,
     state::AppState,
-    websocket::{authentication::challenge, connection::ConnectionState, protocol::ServerMessage},
+    websocket::{connection::ConnectionState, protocol::ServerMessage},
 };
 
 pub struct ChallengeHandler;
@@ -15,6 +15,10 @@ impl ChallengeHandler {
         conn_state: &mut ConnectionState,
         device_public_key: String,
     ) -> Result<ServerMessage, &'static str> {
+        if matches!(conn_state, ConnectionState::Authenticated { .. }) {
+            return Err("Already authenticated");
+        }
+
         let device: Option<Device> = app_state
             .db
             .select(("device", device_public_key.clone()))
@@ -29,18 +33,14 @@ impl ChallengeHandler {
             return Err("Device is not trusted.");
         }
 
-        let challenge_str = challenge::generate32();
-
-        let created_at = Instant::now();
+        let challenge = generate32();
 
         *conn_state = ConnectionState::WaitingForChallenge {
             device_public_key,
-            challenge: challenge_str.clone(),
-            created_at,
+            challenge: challenge.clone(),
+            created_at: Instant::now(),
         };
 
-        Ok(ServerMessage::Challenge {
-            challenge: challenge_str,
-        })
+        Ok(ServerMessage::Challenge { challenge })
     }
 }

@@ -1,19 +1,32 @@
 use std::{
     collections::{HashMap, HashSet},
-    sync::Arc,
+    sync::{
+        Arc,
+        atomic::{AtomicU64, Ordering},
+    },
 };
 use tokio::sync::{RwLock, mpsc};
 
 use crate::websocket::protocol::ServerMessage;
 
+static NEXT_SESSION_ID: AtomicU64 = AtomicU64::new(1);
+
 #[derive(Clone)]
 pub struct Outbound {
+    id: u64,
     tx: mpsc::Sender<ServerMessage>,
 }
 
 impl Outbound {
     pub fn new(tx: mpsc::Sender<ServerMessage>) -> Self {
-        Self { tx }
+        Self {
+            id: NEXT_SESSION_ID.fetch_add(1, Ordering::Relaxed),
+            tx,
+        }
+    }
+
+    pub fn id(&self) -> u64 {
+        self.id
     }
 
     pub async fn send(&self, message: ServerMessage) -> bool {
@@ -58,10 +71,21 @@ impl Connections {
         previous
     }
 
-    pub async fn unregister(&self, master_public_key: &str, device_public_key: &str) {
+    pub async fn unregister(
+        &self,
+        master_public_key: &str,
+        device_public_key: &str,
+        session_id: u64,
+    ) {
         let mut inner = self.inner.write().await;
 
-        inner.devices.remove(device_public_key);
+        match inner.devices.get(device_public_key) {
+            Some(current) if current.id != session_id => return,
+            Some(_) => {
+                inner.devices.remove(device_public_key);
+            }
+            None => {}
+        }
 
         if let Some(devices) = inner.users.get_mut(master_public_key) {
             devices.remove(device_public_key);
@@ -79,12 +103,22 @@ impl Connections {
         };
 
         match outbound {
-            Some(outbound) => outbound.send(message).await,
+            Some(outbound) => outbound.try_send(message),
             None => false,
         }
     }
 
     pub async fn send_to_user(&self, master_public_key: &str, message: ServerMessage) -> usize {
+        self.send_to_user_except(master_public_key, None, message)
+            .await
+    }
+
+    pub async fn send_to_user_except(
+        &self,
+        master_public_key: &str,
+        except: Option<u64>,
+        message: ServerMessage,
+    ) -> usize {
         let targets = {
             let inner = self.inner.read().await;
 
@@ -94,21 +128,18 @@ impl Connections {
                 .map(|devices| {
                     devices
                         .iter()
-                        .filter_map(|device| inner.devices.get(device).cloned())
+                        .filter_map(|device| inner.devices.get(device))
+                        .filter(|outbound| Some(outbound.id) != except)
+                        .cloned()
                         .collect::<Vec<_>>()
                 })
                 .unwrap_or_default()
         };
 
-        let mut delivered = 0;
-
-        for outbound in targets {
-            if outbound.send(message.clone()).await {
-                delivered += 1;
-            }
-        }
-
-        delivered
+        targets
+            .into_iter()
+            .filter(|outbound| outbound.try_send(message.clone()))
+            .count()
     }
 
     pub async fn is_online(&self, master_public_key: &str) -> bool {
@@ -117,6 +148,27 @@ impl Connections {
             .await
             .users
             .contains_key(master_public_key)
+    }
+
+    pub async fn device_count(&self, master_public_key: &str) -> usize {
+        self.inner
+            .read()
+            .await
+            .users
+            .get(master_public_key)
+            .map_or(0, |devices| devices.len())
+    }
+
+    pub async fn presence_of(&self, master_public_keys: &[String]) -> Vec<(String, usize)> {
+        let inner = self.inner.read().await;
+
+        master_public_keys
+            .iter()
+            .map(|key| {
+                let count = inner.users.get(key).map_or(0, |devices| devices.len());
+                (key.clone(), count)
+            })
+            .collect()
     }
 
     pub async fn online_count(&self) -> usize {

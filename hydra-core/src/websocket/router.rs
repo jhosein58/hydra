@@ -5,17 +5,21 @@ use crate::{
             auth_status::AuthStatusHandler, challenge::ChallengeHandler, ping::PingHandler,
             verify::VerifyHandler,
         },
-        connection::{ConnectionState, send},
+        connection::ConnectionState,
+        message::send::SendMessageHandler,
         protocol::{ClientMessage, ServerMessage},
-        user::{get::GetProfileHandler, search::SearchUserHandler, update::UpdateUserHandler},
+        registry::Outbound,
+        user::{
+            get::GetProfileHandler, presence::PresenceHandler, search::SearchUserHandler,
+            update::UpdateUserHandler,
+        },
     },
 };
-use axum::extract::ws::WebSocket;
 
 pub async fn routing(
-    socket: &mut WebSocket,
     app_state: &AppState,
     conn_state: &mut ConnectionState,
+    outbound: &Outbound,
     message: ClientMessage,
 ) {
     let response = match message {
@@ -26,7 +30,7 @@ pub async fn routing(
         }
 
         ClientMessage::ChallengeResponse { signature } => {
-            VerifyHandler::handle(conn_state, signature).await
+            VerifyHandler::handle(app_state, conn_state, outbound, signature).await
         }
 
         ClientMessage::AuthStatus => AuthStatusHandler::handle(conn_state),
@@ -42,18 +46,26 @@ pub async fn routing(
         ClientMessage::SearchUsers { username } => {
             SearchUserHandler::handle(app_state, conn_state, &username).await
         }
+
+        ClientMessage::SendMessage { to, payload } => {
+            SendMessageHandler::handle(app_state, conn_state, outbound.id(), to, payload).await
+        }
+
+        ClientMessage::GetPresence { users } => {
+            PresenceHandler::handle(app_state, conn_state, users).await
+        }
     };
 
     match response {
-        Ok(res) => send(socket, res).await,
-        Err(e) => {
-            send(
-                socket,
-                ServerMessage::Error {
-                    message: e.to_string(),
-                },
-            )
-            .await
+        Ok(res) => {
+            outbound.send(res).await;
+        }
+        Err(error) => {
+            outbound
+                .send(ServerMessage::Error {
+                    message: error.to_string(),
+                })
+                .await;
         }
     }
 }

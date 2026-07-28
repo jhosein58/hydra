@@ -6,6 +6,7 @@ impl AuthStatusHandler {
     pub fn handle(conn_status: &ConnectionState) -> Result<ServerMessage, &'static str> {
         let is_login = if let ConnectionState::Authenticated {
             device_public_key: _,
+            master_public_key: _,
         } = conn_status
         {
             true

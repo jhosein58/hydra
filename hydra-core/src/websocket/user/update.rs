@@ -17,7 +17,11 @@ impl UpdateUserHandler {
         bio: Option<String>,
         username: Option<String>,
     ) -> Result<ServerMessage, &'static str> {
-        let ConnectionState::Authenticated { device_public_key } = conn_state else {
+        let ConnectionState::Authenticated {
+            device_public_key,
+            master_public_key: _,
+        } = conn_state
+        else {
             return Err("unauthenticated");
         };
 
