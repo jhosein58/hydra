@@ -1,31 +1,35 @@
-// features/profile/hooks/useProfile.ts
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { socketService } from "@/shared/lib/websocket/socket-service";
 
 export function useProfile() {
   const [profileData, setProfileData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    // ۱. ثبت شنونده برای دریافت بروزرسانی‌های پروفایل از سوکت
-    const unsubProfileUpdate = socketService.on("Profile", (data) => {
-      console.log(data);
-      setProfileData(data);
-      setLoading(false);
-    });
+  const unsubscribersRef = useRef<(() => void)[]>([]);
 
-    socketService.send({ type: "GetProfile" });
+  useEffect(() => {
+    async function initProfile() {
+      const unsubProfileUpdate = socketService.on("Profile", (data) => {
+        setProfileData(data);
+        setLoading(false);
+      });
+
+      unsubscribersRef.current.push(unsubProfileUpdate);
+
+      socketService.send({ type: "GetProfile" });
+    }
+
+    initProfile();
 
     return () => {
-      unsubProfileUpdate();
+      unsubscribersRef.current.forEach((unsubscribe) => unsubscribe());
     };
   }, []);
 
-  // اکشن نمونه: آپدیت نام کاربری
-  const updateProfile = (newUsername: string) => {
+  const updateProfile = (data: any) => {
     socketService.send({
       type: "ProfileUpdated",
-      data: { username: newUsername },
+      data,
     });
   };
 

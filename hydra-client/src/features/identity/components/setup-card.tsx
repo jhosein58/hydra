@@ -12,11 +12,7 @@ import { SetupHeader } from "./setup-header";
 export function SetupCard() {
   const [checked, setChecked] = useState(false)
 
-  const {confirmMnemonicAndConnect, mnemonic, fetchMnemonic} = useIdentityFlow();
-  
-  useEffect(() => {
-    fetchMnemonic();
-  }, [])
+  const {confirmMnemonicAndConnect, mnemonic} = useIdentityFlow();
 
   return (
     <div

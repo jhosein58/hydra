@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
 import { useProfile } from "../hooks/useProfile";
 
 export function ProfileCard() {
-  const {updateProfile, loading} = useProfile();
-  
-  if(loading) return <p>is loading ...</p>
+  const { updateProfile, profileData, loading } = useProfile();
+
+  if (loading) return <p>is loading ...</p>;
 
   return (
     <section className="mx-auto w-full max-w-xl rounded-3xl border border-border bg-card p-8 shadow-xl">
@@ -22,7 +22,7 @@ export function ProfileCard() {
 
         <h1 className="mt-5 text-2xl font-bold">Alireza has</h1>
 
-        <p className="mt-1 text-muted-foreground">@flatrov</p>
+        <p className="mt-1 text-muted-foreground">{}</p>
       </div>
 
       <div className="mt-10 space-y-6">
