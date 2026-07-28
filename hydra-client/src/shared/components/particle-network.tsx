@@ -18,10 +18,12 @@ export function ParticleNetwork() {
       y: 0,
     };
 
-    window.addEventListener("mousemove", (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
-    });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
 
     const canvas = canvasRef.current;
 
@@ -40,7 +42,7 @@ export function ParticleNetwork() {
       canvas.style.width = `${window.innerWidth}px`;
       canvas.style.height = `${window.innerHeight}px`;
 
-      ctx.scale(dpr, dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
     resize();
@@ -138,14 +140,10 @@ export function ParticleNetwork() {
     window.addEventListener("resize", resize);
 
     return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("resize", resize);
     };
   }, []);
 
-  return (
-    <canvas
-      ref={canvasRef}
-      className="pointer-events-none absolute inset-0 -z-10"
-    />
-  );
+  return <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />;
 }

@@ -1,26 +1,23 @@
-import { ReactNode } from "react";
-
-import { Header } from "./header";
-import { Sidebar } from "./sidebar";
 import { ParticleNetwork } from "@/shared/components/particle-network";
 
-interface Props {
-  children: ReactNode;
-}
+import { Sidebar } from "./sidebar/Sidebar";
+
+type Props = {
+  children: React.ReactNode;
+};
 
 export function MessengerLayout({ children }: Props) {
   return (
-    <div className="relative h-dvh overflow-hidden">
+    <main className="relative h-screen overflow-hidden bg-[#09090B]">
       <ParticleNetwork />
 
-      <div className="relative z-10 flex h-full">
-        <Sidebar />
+      <div className="absolute inset-0 bg-[#09090B]/50" />
 
-        <div className="flex flex-1 flex-col">
-          <Header />
-          <main className="flex-1 overflow-auto">{children}</main>
+      <div className="relative z-10 h-full p-4">
+        <div className="flex h-full overflow-hidden rounded-3xl border border-white/10 bg-black/20">
+          <Sidebar />
         </div>
       </div>
-    </div>
+    </main>
   );
 }

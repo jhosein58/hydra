@@ -26,3 +26,28 @@ body {
   background-color: var(--color-background);
   color: var(--color-foreground);
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+
+  background: linear-gradient(180deg, #7b3fff, #4f8cff);
+
+  transition: all 0.3s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #a78bfa, #60a5fa);
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #7b3fff transparent;
+}
