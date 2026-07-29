@@ -28,7 +28,7 @@ const chats = [
 export function RecentChats() {
   return (
     <div className="h-full py-4">
-      <p className="mb-3 px-4 text-xs font-medium uppercase tracking-wider text-zinc-500">
+      <p className="mb-3 px-4 text-xs font-medium uppercase tracking-wider text-muted-foreground">
         Recent Chats
       </p>
 

@@ -11,18 +11,18 @@ export function SidebarFooter() {
     <footer className="p-4">
       {open && <SettingsPopover />}
 
-      <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/8 px-4 py-3 backdrop-blur-md">
+      <div className="flex items-center justify-between rounded-2xl border border-border bg-card px-4 py-3 backdrop-blur-md">
         <div className="flex items-center gap-3">
           {/* Avatar */}
-          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#7B3FFF]/20 text-sm font-semibold text-[#B794FF]">
+          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary/20 text-sm font-semibold text-primary-hover">
             F
           </div>
 
           {/* User info */}
           <div className="flex flex-col">
-            <span className="text-sm font-medium text-white">Flatrov</span>
+            <span className="text-sm font-medium text-foreground">Flatrov</span>
 
-            <span className="text-xs text-zinc-500">@flatrov</span>
+            <span className="text-xs text-muted-foreground">@flatrov</span>
 
             <div className="mt-1 flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-emerald-400" />
@@ -35,7 +35,7 @@ export function SidebarFooter() {
         {/* Settings */}
         <button
           onClick={() => setOpen((prev) => !prev)}
-          className="rounded-xl p-2 text-zinc-400 transition hover:bg-white/10 hover:text-white"
+          className="rounded-xl p-2 text-muted-foreground transition hover:bg-card hover:text-foreground"
         >
           <Settings size={18} />
         </button>

@@ -1,12 +1,12 @@
 export function SidebarTop() {
   return (
-    <div className="border-b border-white/10 h-20 flex items-center justify-between px-4">
+    <div className="flex h-20 items-center justify-between border-b border-border px-4">
       <div>
-        <h1 className="text-xl font-semibold tracking-tight text-white">
+        <h1 className="text-xl font-semibold tracking-tight text-foreground">
           Haydra
         </h1>
 
-        <p className="mt-1 text-xs text-zinc-500">Secure Messaging</p>
+        <p className="mt-1 text-xs text-muted-foreground">Secure Messaging</p>
       </div>
 
       <div className="flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1">

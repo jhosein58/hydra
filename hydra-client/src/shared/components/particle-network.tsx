@@ -98,7 +98,7 @@ export function ParticleNetwork() {
 
         ctx.arc(particle.x, particle.y, 2, 0, Math.PI * 2);
 
-        ctx.fillStyle = distance < 120 ? "#7ab6ff" : "#4f8cff";
+        ctx.fillStyle = distance < 120 ? "#B794FF" : "#7B3FFF";
 
         ctx.fill();
       }
@@ -124,7 +124,7 @@ export function ParticleNetwork() {
           ctx.moveTo(p1.x, p1.y);
           ctx.lineTo(p2.x, p2.y);
 
-          ctx.strokeStyle = `rgba(79, 140, 255, ${opacity * 0.25})`;
+          ctx.strokeStyle = `rgba(123, 63, 255, ${opacity * 0.25})`;
 
           ctx.lineWidth = 1;
 

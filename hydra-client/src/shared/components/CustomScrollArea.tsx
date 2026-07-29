@@ -90,11 +90,11 @@ export function CustomScrollArea({ children }: Props) {
             transform: `translateY(${thumbTop}px)`,
           }}
           className="
-                        w-full
-                        bg-linear-to-b
-                        from-[#7B3FFF]
-                        to-[#4F8CFF]
-                    "
+  w-full
+  bg-linear-to-b
+  from-primary
+  to-primary-hover
+"
         />
       </div>
     </div>
