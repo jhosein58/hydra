@@ -71,7 +71,7 @@ export function ProfileCard() {
             @{username || "username"}
           </p>
 
-          <div className="mt-8 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+          <div className="mt-8 h-px w-full bg-linear-to-r from-transparent via-white/10 to-transparent" />
 
           <p className="mt-8 text-center text-sm leading-6 text-zinc-400">
             Your username is how other people can find you on Haydra.

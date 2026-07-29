@@ -16,8 +16,8 @@ export function SidebarContent() {
   const isSearching = query.trim().length > 0;
 
   useEffect(() => {
-    const unsubscribe = socketService.on("Users", (data: SearchUser[]) => {
-      setUsers(data);
+    const unsubscribe = socketService.on("Users", (data) => {
+      setUsers(data.users);
     });
 
     return unsubscribe;
