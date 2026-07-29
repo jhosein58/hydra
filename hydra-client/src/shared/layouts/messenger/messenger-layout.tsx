@@ -1,8 +1,6 @@
 import { ParticleNetwork } from "@/shared/components/particle-network";
 
 import { Sidebar } from "./sidebar/Sidebar";
-import { ChatLayout } from "./chat/ChatLayout";
-import { EmptyChat } from "./chat/EmptyChat";
 
 type Props = {
   children: React.ReactNode;
@@ -19,7 +17,7 @@ export function MessengerLayout({ children }: Props) {
         <div className="flex h-full overflow-hidden rounded-3xl border border-white/10 bg-black/20">
           <Sidebar />
 
-          <ChatLayout />
+          <section className="flex min-w-0 flex-1 flex-col">{children}</section>
         </div>
       </div>
     </main>

@@ -91,7 +91,7 @@ export function CustomScrollArea({ children }: Props) {
           }}
           className="
                         w-full
-                        bg-gradient-to-b
+                        bg-linear-to-b
                         from-[#7B3FFF]
                         to-[#4F8CFF]
                     "

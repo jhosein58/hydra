@@ -23,33 +23,12 @@ const chats = [
     time: "09:45",
     unread: 5,
   },
-  {
-    id: 3,
-    name: "Reza",
-    message: "Let's talk later",
-    time: "09:45",
-    unread: 5,
-  },
-  {
-    id: 3,
-    name: "Reza",
-    message: "Let's talk later",
-    time: "09:45",
-    unread: 5,
-  },
-  {
-    id: 3,
-    name: "Reza",
-    message: "Let's talk later",
-    time: "09:45",
-    unread: 5,
-  },
 ];
 
 export function RecentChats() {
   return (
-    <div className="h-full  py-4">
-      <p className="mb-3 px-2 text-xs font-medium uppercase tracking-wider text-zinc-500">
+    <div className="h-full py-4">
+      <p className="mb-3 px-4 text-xs font-medium uppercase tracking-wider text-zinc-500">
         Recent Chats
       </p>
 
