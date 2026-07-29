@@ -20,7 +20,7 @@ export function SearchResults({ users, onSelect }: Props) {
           key={user.username}
           className="rounded-2xl border border-border bg-card p-4 block"
           onClick={onSelect}
-          href={`/messenger/${user.master_public_key}`}
+          href={`/messenger/${user.username}`}
         >
           {user.username}
         </Link>

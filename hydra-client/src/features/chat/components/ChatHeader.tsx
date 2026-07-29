@@ -1,6 +1,6 @@
 import { MoreVertical, Search } from "lucide-react";
 
-export function ChatHeader() {
+export function ChatHeader({ name, username }: any) {
   return (
     <header className="flex shrink-0 h-20 items-center justify-between border-b border-white/10 px-6">
       <div className="flex items-center gap-3">
@@ -9,9 +9,9 @@ export function ChatHeader() {
         </div>
 
         <div>
-          <p className="text-sm font-medium text-white">Ali</p>
+          <p className="text-sm font-medium text-white">{name}</p>
 
-          <p className="text-xs text-zinc-500">@ali_dev</p>
+          <p className="text-xs text-zinc-500">@{username}</p>
         </div>
       </div>
 
