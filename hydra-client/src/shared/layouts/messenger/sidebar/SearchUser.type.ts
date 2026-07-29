@@ -1,4 +1,4 @@
 export type SearchUser = {
   username: string;
-  public_master_key: string;
+  master_public_key: string;
 };

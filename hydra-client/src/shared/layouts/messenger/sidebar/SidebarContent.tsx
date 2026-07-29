@@ -7,13 +7,19 @@ import { SidebarSearch } from "./SidebarSearch";
 import { useDebounce } from "@/shared/hooks/useDebounce";
 import { socketService } from "@/shared/lib/websocket/socket-service";
 import { SearchUser } from "./SearchUser.type";
+import { usePathname } from "next/navigation";
 
 export function SidebarContent() {
   const [users, setUsers] = useState<SearchUser[]>([]);
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query);
-
+  const pathname = usePathname();
   const isSearching = query.trim().length > 0;
+
+  useEffect(() => {
+    setQuery("");
+    setUsers([]);
+  }, [pathname]);
 
   useEffect(() => {
     const unsubscribe = socketService.on("Users", (data) => {
@@ -43,7 +49,17 @@ export function SidebarContent() {
       </div>
 
       <div className="flex-1 overflow-hidden">
-        {isSearching ? <SearchResults users={users} /> : <RecentChats />}
+        {isSearching ? (
+          <SearchResults
+            users={users}
+            onSelect={() => {
+              setQuery("");
+              setUsers([]);
+            }}
+          />
+        ) : (
+          <RecentChats />
+        )}
       </div>
     </>
   );

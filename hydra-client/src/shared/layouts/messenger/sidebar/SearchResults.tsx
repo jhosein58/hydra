@@ -1,6 +1,12 @@
 import { SearchUser } from "./SearchUser.type";
+import Link from "next/link";
 
-export function SearchResults({ users }: { users: SearchUser[] }) {
+type Props = {
+  users: SearchUser[];
+  onSelect: () => void;
+};
+
+export function SearchResults({ users, onSelect }: Props) {
   if (!users.length) {
     return (
       <div className="p-4 text-sm text-muted-foreground">No users found</div>
@@ -10,12 +16,14 @@ export function SearchResults({ users }: { users: SearchUser[] }) {
   return (
     <div className="space-y-2 p-4">
       {users.map((user) => (
-        <div
+        <Link
           key={user.username}
-          className="rounded-2xl border border-border bg-card p-4"
+          className="rounded-2xl border border-border bg-card p-4 block"
+          onClick={onSelect}
+          href={`/messenger/${user.master_public_key}`}
         >
           {user.username}
-        </div>
+        </Link>
       ))}
     </div>
   );
