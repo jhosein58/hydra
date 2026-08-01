@@ -5,7 +5,7 @@ type Props = {
   setQuery: (value: string) => void;
 };
 
-export function SidebarSearch({ query, setQuery }: Props) {
+export function SearchInput({ query, setQuery }: Props) {
   return (
     <div className="relative">
       <Search

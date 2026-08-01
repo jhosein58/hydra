@@ -1,7 +1,7 @@
-import { ChatHeader } from "@/features/chat/components/ChatHeader";
-import { ChatInput } from "@/features/chat/components/ChatInput";
-import { ChatMessages } from "@/features/chat/components/ChatMessages";
+import { SendMessageInput } from "@/features/send-message";
 import { api } from "@/shared/lib/axios/axios";
+import { ChatHeader } from "@/widgets/chat/ui/ChatHeader";
+import { ChatMessages } from "@/widgets/chat/ui/ChatMessages";
 
 export default async function Chat({
   params,
@@ -11,13 +11,13 @@ export default async function Chat({
   const { username } = await params;
   const { data } = await api(`/user/${username}`);
 
-  console.log(data)
+  console.log(data);
 
   return (
     <>
       <ChatHeader {...data} />
       <ChatMessages />
-      <ChatInput {...data} />
+      <SendMessageInput {...data} />
     </>
   );
 }

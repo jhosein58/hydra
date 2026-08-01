@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import { MessengerLayout } from "@/shared/layouts/messenger/messenger-layout";
+import { MessengerLayout } from "../../widgets/messenger-layout/ui/messenger-layout";
 
 export default function Layout({
   children,

@@ -1,4 +1,4 @@
-import { SearchUser } from "./SearchUser.type";
+import { SearchUser } from "../model/searchUser.type";
 import Link from "next/link";
 
 type Props = {

@@ -1,23 +1,11 @@
 "use client";
 
-import { socketService } from "@/shared/lib/websocket/socket-service";
 import { Send } from "lucide-react";
-import { useState } from "react";
+import { useSendMessage } from "../model/useSendMessage";
 
-export function ChatInput({ master_public_key }: any) {
-  const [message, setMessage] = useState("");
-
-  function sendMessage() {
-    socketService.send({
-      type: "SendMessage",
-      data: {
-        to: master_public_key,
-        payload: {
-          text: message,
-        },
-      },
-    });
-  }
+export function SendMessageInput({ master_public_key }: any) {
+  const { message, setMessage, sendMessage } =
+    useSendMessage(master_public_key);
 
   return (
     <footer className="p-4">
