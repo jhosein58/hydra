@@ -1,4 +1,4 @@
-import { CustomScrollArea } from "@/shared/components/CustomScrollArea";
+import { CustomScrollArea } from "@/shared/ui/CustomScrollArea";
 import { ChatItem } from "./ChatItem";
 
 const chats = [

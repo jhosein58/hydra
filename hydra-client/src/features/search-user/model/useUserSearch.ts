@@ -1,7 +1,7 @@
 import { socketService } from "@/shared/lib/websocket/socket-service";
 import { useEffect, useState } from "react";
 import { SearchUser } from "./searchUser.type";
-import { useDebounce } from "@/shared/hooks/useDebounce";
+import { useDebounce } from "@/shared/model/useDebounce";
 import { usePathname } from "next/navigation";
 
 export function useUserSearch() {

@@ -1,4 +1,4 @@
-import { api } from "@/shared/lib/axios/axios";
+import { api } from "@/shared/lib/axios/api";
 
 import type { RegisterIdentityPayload } from "../types/register-identity";
 
