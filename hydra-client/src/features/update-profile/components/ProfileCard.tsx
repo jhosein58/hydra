@@ -3,15 +3,19 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useProfile } from "../hooks/useProfile";
-import { Profile, ProfileSchema } from "../schema/profile.schema";
+import { useProfile } from "../model/useUpdateProfile";
+import {
+  UserProfile,
+  UserProfileSchema,
+  useUserProfile,
+} from "@/entities/user";
 
 export function ProfileCard() {
+  const { updateProfile } = useProfile();
   const {
-    updateProfile,
-    profileData: { name, username, bio },
     loading,
-  } = useProfile();
+    profileData: { name, username, bio },
+  } = useUserProfile();
 
   const {
     handleSubmit,
@@ -19,7 +23,7 @@ export function ProfileCard() {
     formState: { errors, isValid },
   } = useForm({
     mode: "onBlur",
-    resolver: zodResolver(ProfileSchema),
+    resolver: zodResolver(UserProfileSchema),
   });
 
   if (loading) {
@@ -30,7 +34,7 @@ export function ProfileCard() {
     );
   }
 
-  const handler = (data: Profile) => {
+  const handler = (data: UserProfile) => {
     updateProfile(data);
   };
 

@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef, useCallback } from "react";
 import { socketService } from "@/shared/lib/websocket/socket-service";
-import { Profile } from "../schema/profile.schema";
+import { useEffect, useRef, useState } from "react";
+import { UserProfile } from "./UserProfile.schema";
 
-export function useProfile() {
-  const [profileData, setProfileData] = useState<Profile>({
+export function useUserProfile() {
+  const [profileData, setProfileData] = useState<UserProfile>({
     name: "defalt name",
     username: "defalt username",
     bio: "",
@@ -32,12 +32,5 @@ export function useProfile() {
     };
   }, []);
 
-  const updateProfile = useCallback((data: any) => {
-    socketService.send({
-      type: "UpdateProfile",
-      data,
-    });
-  }, []);
-
-  return { profileData, loading, updateProfile };
+  return { profileData, loading };
 }

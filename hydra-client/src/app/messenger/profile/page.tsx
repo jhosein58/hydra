@@ -1,4 +1,4 @@
-import { ProfileCard } from "@/features/profile/components/profile-card";
+import { ProfileCard } from "@/features/update-profile/components/ProfileCard";
 
 export default function ProfilePage() {
   return (

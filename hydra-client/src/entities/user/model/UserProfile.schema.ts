@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const ProfileSchema = z.object({
+export const UserProfileSchema = z.object({
   name: z.string().trim().min(3).max(8),
 
   username: z
@@ -13,4 +13,4 @@ export const ProfileSchema = z.object({
   bio: z.string().max(200).optional(),
 });
 
-export type Profile = z.infer<typeof ProfileSchema>;
+export type UserProfile = z.infer<typeof UserProfileSchema>;
