@@ -1,9 +1,9 @@
-import { ProfileCard } from "@/features/update-profile/components/ProfileCard";
+import { EditProfileCard } from "@/features/update-profile";
 
 export default function ProfilePage() {
   return (
     <main className="flex min-h-screen items-center justify-center">
-      <ProfileCard />
+      <EditProfileCard />
     </main>
   );
 }

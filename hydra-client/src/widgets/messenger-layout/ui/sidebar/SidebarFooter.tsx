@@ -18,7 +18,6 @@ export function SidebarFooter() {
       <div className="flex items-center justify-between rounded-2xl border border-border bg-card px-4 py-3 backdrop-blur-md">
         <UserCard title="f" name={name} id={id} status="online" />
 
-        {/* Settings */}
         <button
           onClick={() => setOpen((prev) => !prev)}
           className="rounded-xl p-2 text-muted-foreground transition hover:bg-card hover:text-foreground"

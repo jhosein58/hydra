@@ -2,16 +2,15 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { updateProfile } from "../api/update-profile";
 
-import { useProfile } from "../model/useUpdateProfile";
 import {
   UserProfile,
   UserProfileSchema,
   useUserProfile,
 } from "@/entities/user";
 
-export function ProfileCard() {
-  const { updateProfile } = useProfile();
+export function EditProfileCard() {
   const {
     loading,
     profileData: { name, username, bio },
