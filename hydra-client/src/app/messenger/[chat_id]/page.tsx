@@ -4,14 +4,14 @@ import { ChatWindow } from "@/widgets/chat-window";
 export default async function Chat({
   params,
 }: {
-  params: Promise<{ username: string }>;
+  params: Promise<{ chat_id: string }>;
 }) {
-  const { username } = await params;
-  const { data } = await api(`/user/${username}`);
+  const { chat_id } = await params;
+  const { data } = await api(`/user/${chat_id}`);
 
   return (
     <>
-      <ChatWindow username={data} />
+      <ChatWindow />
     </>
   );
 }
