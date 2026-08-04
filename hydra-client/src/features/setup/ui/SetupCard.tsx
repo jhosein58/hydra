@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useIdentityFlow } from "../hooks/useIdentityFlow";
-import { ContinueButton } from "./continue-button";
-import { MnemonicGrid } from "./mnemonic-grid";
-import { SecurityAlert } from "./security-alert";
-import { SetupAgreement } from "./setup-agreement";
-import { SetupBanner } from "./setup-banner";
-import { SetupHeader } from "./setup-header";
+import { useState } from "react";
+import { useIdentityFlow } from "../model/useIdentityFlow";
+import { ContinueButton } from "./ContinueButton";
+import { MnemonicGrid } from "./MnemonicGrid";
+import { SecurityAlert } from "./SecurityAlert";
+import { SetupAgreement } from "./SetupAgreement";
+import { SetupBanner } from "./SetupBanner";
+import { SetupHeader } from "./SetupHeader";
 
 export function SetupCard() {
   const [checked, setChecked] = useState(false)

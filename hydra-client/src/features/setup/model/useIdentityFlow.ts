@@ -1,9 +1,9 @@
 // features/auth/hooks/useAuthFlow.ts
 import { useState, useRef, useEffect } from "react";
 import { generateMnemonic } from "../api/generate-mnemonic";
-import { generateKeys } from "../crypto/generate-keys";
+import { generateKeys } from "./crypto/generate-keys";
 import { registerIdentity } from "../api/register-Identity";
-import { getIdentityKeys } from "../storage/keys";
+import { getIdentityKeys } from "./storage/keys";
 import { useSocket } from "@/shared/providers/SocketProvider";
 
 export type AuthStep =

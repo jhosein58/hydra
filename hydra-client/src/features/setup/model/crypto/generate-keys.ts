@@ -2,7 +2,7 @@ import { generateMasterKeyPair } from "./master";
 import { generateDeviceKeyPair } from "./device";
 import { signDevicePublicKey } from "./sign";
 import { saveIdentityKeys } from "../storage/keys";
-import { encodeBase58 } from "../../../shared/lib/crypto/base58";
+import { encodeBase58 } from "../../../../shared/lib/crypto/base58";
 
 export async function generateKeys(mnemonic: string[]) {
   const master = await generateMasterKeyPair(mnemonic);

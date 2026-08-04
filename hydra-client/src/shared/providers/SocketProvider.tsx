@@ -11,7 +11,7 @@ import {
   useState,
 } from "react";
 import { socketService } from "../lib/websocket/socket-service";
-import { getIdentityKeys } from "@/features/identity/storage/keys";
+import { getIdentityKeys } from "@/features/setup/model/storage/keys";
 import { decodeBase58, encodeBase58 } from "../lib/crypto/base58";
 import { ed25519 } from "@noble/curves/ed25519.js";
 import { redirect } from "next/navigation";
@@ -59,7 +59,7 @@ export function SocketProvider({ children }: { children: ReactNode }) {
         async (data: { challenge: string }) => {
           try {
             setStep("SIGNING");
-            
+
             const challengeBytes = decodeBase58(data.challenge);
             const signature = ed25519.sign(
               challengeBytes,
