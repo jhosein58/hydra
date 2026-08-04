@@ -1,3 +1,5 @@
+"use client"
+
 import { socketService } from "@/shared/lib/websocket/socket-service";
 import { useEffect, useRef, useState } from "react";
 import { UserProfile } from "./UserProfile.schema";

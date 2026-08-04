@@ -1,4 +1,4 @@
-import { EmptyChat } from "@/widgets/chat/ui/EmptyChat";
+import { EmptyChat } from "@/widgets/chat-window";
 
 export default function DefaultMessengerPage() {
   return <EmptyChat />;

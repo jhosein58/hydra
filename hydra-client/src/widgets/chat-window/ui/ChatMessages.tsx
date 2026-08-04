@@ -1,4 +1,4 @@
-import { MessageBubble } from "@/entities/chat/ui/MessageBubble";
+import { MessageBubble } from "@/entities/message/ui/MessageBubble";
 import { CustomScrollArea } from "@/shared/ui/CustomScrollArea";
 
 const messages = [

@@ -1,6 +1,5 @@
-import { SendMessageInput } from "@/features/send-message";
 import { api } from "@/shared/lib";
-import { ChatHeader, ChatMessages } from "@/widgets/chat";
+import { ChatWindow } from "@/widgets/chat-window";
 
 export default async function Chat({
   params,
@@ -10,13 +9,9 @@ export default async function Chat({
   const { username } = await params;
   const { data } = await api(`/user/${username}`);
 
-  console.log(data);
-
   return (
     <>
-      <ChatHeader {...data} />
-      <ChatMessages />
-      <SendMessageInput {...data} />
+      <ChatWindow username={data} />
     </>
   );
 }
