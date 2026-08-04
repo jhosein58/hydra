@@ -6,7 +6,7 @@ interface UsernameProps {
 export function Username({ value, withAt = true }: UsernameProps) {
   return (
     <span className="text-xs text-muted-foreground">
-      {withAt && "@"} {value}
+      {withAt && "@"}{value}
     </span>
   );
 }
