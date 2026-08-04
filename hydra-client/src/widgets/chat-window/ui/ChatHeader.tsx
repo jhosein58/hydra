@@ -7,7 +7,7 @@ export function ChatHeader() {
       <div className="flex items-center gap-3">
         <UserAvatar value="A" />
 
-        <div>
+        <div className="flex flex-col">
           <UserDisplayName value="flatrov" />
 
           <Username value="flatrov" />
