@@ -1,16 +1,16 @@
-import { UserAvatar, UserId, Username } from "@/entities/user";
+import { UserAvatar, UserDisplayName, Username } from "@/entities/user";
 import { MoreVertical, Search } from "lucide-react";
 
-export function ChatHeader({ name, username }: any) {
+export function ChatHeader() {
   return (
     <header className="flex shrink-0 h-20 items-center justify-between border-b border-white/10 px-6">
       <div className="flex items-center gap-3">
-        <UserAvatar title="A" />
+        <UserAvatar value="A" />
 
         <div>
-          <Username name="flatrov" />
+          <UserDisplayName value="flatrov" />
 
-          <UserId id="flatrov" />
+          <Username value="flatrov" />
         </div>
       </div>
 

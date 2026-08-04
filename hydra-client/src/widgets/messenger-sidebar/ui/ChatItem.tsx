@@ -1,4 +1,4 @@
-import { UserAvatar, Username } from "@/entities/user";
+import { UserAvatar, UserDisplayName } from "@/entities/user";
 
 type Props = {
   name: string;
@@ -11,12 +11,12 @@ export function ChatItem({ name, message, time, unread }: Props) {
   return (
     <button className="flex w-full items-center gap-3 rounded-2xl p-3 text-left transition hover:bg-card">
       {/* Avatar */}
-      <UserAvatar title={name[0]} />
+      <UserAvatar value={name[0]} />
 
       {/* Content */}
       <div className="min-w-0 flex-1">
         <div className="flex items-center justify-between">
-          <Username name={name} />
+          <UserDisplayName value={name} />
 
           <span className="text-xs text-muted-foreground">{time}</span>
         </div>

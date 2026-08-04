@@ -1,7 +1,12 @@
 interface UsernameProps {
-  name: string;
+  value: string;
+  withAt?: boolean;
 }
 
-export function Username({ name }: UsernameProps) {
-  return <span className="text-sm font-medium text-foreground">{name}</span>;
+export function Username({ value, withAt = true }: UsernameProps) {
+  return (
+    <span className="text-xs text-muted-foreground">
+      {withAt && "@"} {value}
+    </span>
+  );
 }
